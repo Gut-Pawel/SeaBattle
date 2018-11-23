@@ -55,7 +55,7 @@ public class Controller implements Initializable {
                     i2 = (buttonID.charAt(7)-48);
                     j2 = (buttonID.charAt(8)-48);
 
-                    System.out.println(buttonID+"["+(i2)+"]  ["+(j2)+"]");
+              
                     if(sourceObjcet instanceof Button) {
                         try {
 
@@ -72,7 +72,7 @@ public class Controller implements Initializable {
                             }
                             if(button == MouseButton.PRIMARY && shipLenght == 0 && position[i2][j2] == false &&
                                     position[i2+1][j2] == false && position[i2+2][j2] == false && position[i2+3][j2] == false) {
-                                System.out.println("Jebana ");
+                               
                             }
 
                         } catch (IndexOutOfBoundsException e) {
