@@ -4,9 +4,14 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.Random;
@@ -14,6 +19,7 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
+    //
     @FXML
     private GridPane mainContainer;
 
@@ -23,6 +29,9 @@ public class Controller implements Initializable {
     private int shipLenght = 0;
     private int i2;
     private int j2;
+
+    private int yourPoints = 0;
+    private int enemyPoints = 0;
 
     private boolean[][] position = new boolean[9][9];
     private boolean[][] enemyPosition = new boolean[9][9];
@@ -40,9 +49,30 @@ public class Controller implements Initializable {
         Button[][] buttons = new Button[9][9];
         Button[][] enemyButtons = new Button[9][9];
 
-        /*TextArea textArea = new TextArea();
-        mainContainer.add(textArea,0,15,31,40);*/
+        DropShadow ds = new DropShadow();
+        ds.setOffsetY(3.0f);
+        ds.setColor(Color.color(0.4f, 0.4f,0.4f));
 
+        Text t = new Text();
+        t.setEffect(ds);
+        t.setX(29);
+        t.setY(100);
+        t.setText("0/20");
+        t.setFill(Color.GOLD);
+        t.setFont(Font.font(null, FontWeight.BOLD, 40));
+
+        Text t2 = new Text();
+        t2.setEffect(ds);
+        t2.setX(29);
+        t2.setY(100);
+        t2.setText("20/20");
+        t2.setFill(Color.RED);
+        t2.setFont(Font.font(null, FontWeight.BOLD, 40));
+
+        mainContainer.add(t , 4 , 12 ,10,5 );
+        mainContainer.add(t2,16,12,10,5);
+
+//HANDLER ENTERED MOUSE && CLICKED MOUSE EVENTS (YOUR SIDE)
 
         EventHandler<MouseEvent> mouseEnteredHandler = new EventHandler<MouseEvent>() {
             @Override
@@ -59,7 +89,7 @@ public class Controller implements Initializable {
 
                 try {
 
-//STATEK - 4 POZYCYJNY (POZIOMY)
+//4-LENGTH SHIP HORIZONTAL
                     if (shipLenght == 0 && !rotation && (i2 + 3) < row && j2 < col && i2 < 7 &&
                             !buttons[i2][j2].isDisable() && !buttons[i2 + 1][j2].isDisable() &&
                             !buttons[i2 + 2][j2].isDisable() && !buttons[i2 + 3][j2].isDisable()) {
@@ -89,10 +119,14 @@ public class Controller implements Initializable {
 
                             shipLenght++;
                             System.out.println(shipLenght);
+
+                            yourPoints +=4;
+                            t.setText(yourPoints+"/20");
+
                         }
 
                     }
-//STATEK - 4 POZYCYJNY (PIONOWY)
+//4-LENGTH SHIP VERTICAL
                     else if (shipLenght == 0 && rotation && (j2 + 3) < col && i2 < row && j2 < 7 &&
                             !buttons[i2][j2].isDisable() && !buttons[i2][j2 + 1].isDisable() &&
                             !buttons[i2][j2 + 2].isDisable() && !buttons[i2][j2 + 3].isDisable()) {
@@ -122,12 +156,14 @@ public class Controller implements Initializable {
 
                             shipLenght++;
                             System.out.println(shipLenght);
+                            yourPoints+=4;
+                            t.setText(yourPoints+"/20");
 
                         }
 
 
                     }
-//statek 3 pozycyjny(POZIOMY)
+//3-LENGTH SHIP HORIZONTAL
                     else if (1 <= shipLenght && shipLenght <= 2 && !rotation && (i2 + 2) < row && j2 < col && i2 < 8 &&
                             !buttons[i2][j2].isDisable() && !buttons[i2 + 1][j2].isDisable() &&
                             !buttons[i2 + 2][j2].isDisable()) {
@@ -151,11 +187,13 @@ public class Controller implements Initializable {
                             buttons[i2 + 2][j2].setDisable(true);
 
                             shipLenght++;
+                            yourPoints+=3;
+                            t.setText(yourPoints+"/20");
 
                         }
 
                     }
-//STATEK 3-POZYCYJNY (PIONOWY)
+//3-LENGTH SHIP VERTICAL
                     else if (shipLenght >= 1 && shipLenght <= 2 && rotation && (j2 + 2) < col && i2 < row && j2 < 8 &&
                             !buttons[i2][j2].isDisable() && !buttons[i2][j2 + 1].isDisable() &&
                             !buttons[i2][j2 + 2].isDisable()) {
@@ -180,11 +218,13 @@ public class Controller implements Initializable {
 
                             shipLenght++;
                             System.out.println(shipLenght);
+                            yourPoints+=3;
+                            t.setText(yourPoints+"/20");
 
                         }
 
                     }
-                    //STATEK 2-POZYCYJNY(POZIOMY)
+ //2-LENGTH SHIP HORINONTAL
                     else if (3 <= shipLenght && shipLenght <= 5 && !rotation && (i2 + 1) < row && j2 < col && i2 < 9 &&
                             !buttons[i2][j2].isDisable() && !buttons[i2 + 1][j2].isDisable()) {
 
@@ -202,11 +242,13 @@ public class Controller implements Initializable {
                             buttons[i2 + 1][j2].setDisable(true);
 
                             shipLenght++;
+                            yourPoints+=2;
+                            t.setText(yourPoints+"/20");
 
                         }
 
                     }
-                    //STATEK 2-POZYCYJNY (PIONOWY)
+//2-LENGTH SHIP VERTICAL
                     else if (shipLenght >= 3 && shipLenght <= 5 && rotation && (j2 + 1) < col && i2 < row && j2 < 9 &&
                             !buttons[i2][j2].isDisable() && !buttons[i2][j2 + 1].isDisable()) {
 
@@ -224,12 +266,13 @@ public class Controller implements Initializable {
                             buttons[i2][j2 + 1].setDisable(true);
 
                             shipLenght++;
-                            System.out.println(shipLenght);
+                            yourPoints+=2;
+                            t.setText(yourPoints+"/20");
 
                         }
 
                     }
-                    //STATEK 1-POZYCYJNY
+//1-LENTH SHIP
                     else if (6 <= shipLenght && shipLenght <= 9 && (i2) < row && j2 < col &&
                             !buttons[i2][j2].isDisable()) {
 
@@ -239,6 +282,9 @@ public class Controller implements Initializable {
                             buttons[i2][j2].setDisable(true);
 
                             shipLenght++;
+                            yourPoints++;
+                            t.setText(yourPoints+"/20");
+
 
                         }
 
@@ -250,7 +296,7 @@ public class Controller implements Initializable {
             }
         };
 
-        //Handler EXITED MOUSE
+//HANDLER EXITED MOUSE EVENTS ( YOURSIDE )
 
         EventHandler<MouseEvent> mouseExitedHandler = new EventHandler<MouseEvent>() {
             @Override
@@ -260,7 +306,7 @@ public class Controller implements Initializable {
 
                 //BACK TO
 
-                //4-pozycyjny statek
+                //4-LENGTH SHIP EXITED
                 if (shipLenght == 0 && i2 < 7 && !rotation && (i2 + 3) < row) {
 
                     sourceButton.setStyle("-fx-background-color: aqua");
@@ -277,7 +323,7 @@ public class Controller implements Initializable {
                     buttons[i2][j2 + 3].setStyle(("-fx-background-color: aqua"));
 
                 }
-                //3 pozycyjny statek
+                //3-LENGTH SHIP EXITED
                 else if (shipLenght >= 1 && shipLenght <= 2 && i2 < 8 && !rotation && (i2 + 2) < row) {
                     sourceButton.setStyle("-fx-background-color: aqua");
                     buttons[i2 + 1][j2].setStyle(("-fx-background-color: aqua"));
@@ -288,7 +334,7 @@ public class Controller implements Initializable {
                     buttons[i2][j2 + 1].setStyle(("-fx-background-color: aqua"));
                     buttons[i2][j2 + 2].setStyle(("-fx-background-color: aqua"));
                 }
-                //2 pozycyjny statek
+                //2-LENGTH SHIP EXITED
                 else if (shipLenght >= 3 && shipLenght <= 5 && i2 < 9 && !rotation && (i2 + 1) < row) {
                     sourceButton.setStyle("-fx-background-color: aqua");
                     buttons[i2 + 1][j2].setStyle(("-fx-background-color: aqua"));
@@ -297,10 +343,11 @@ public class Controller implements Initializable {
                     sourceButton.setStyle("-fx-background-color: aqua");
                     buttons[i2][j2 + 1].setStyle(("-fx-background-color: aqua"));
                 }
-                //1 POZYCYJNY STATEK
+                //1-LENGTH SHIP EXITED
                 else if (shipLenght >= 6 && shipLenght <= 9 && i2 < row && j2 < 10) {
                     sourceButton.setStyle("-fx-background-color: aqua");
                 }
+
                 else if (shipLenght == 10) {
                     System.out.println("wejscie do petli");
                     for (int i = 0; i < row; i++) {
@@ -313,7 +360,6 @@ public class Controller implements Initializable {
                             }
                             enemyButtons[i][j].setDisable(false);
                             enemyButtons[i][j].setStyle("-fx-background-color:grey");
-                            //System.out.print(" "+i+" "+j+" "+position[i][j]);
 
                         }
                         System.out.println();
@@ -323,13 +369,14 @@ public class Controller implements Initializable {
 
                     int rowLength , colLength;
 
+                    //CREATE RANDOM POSITION ENEMY SHIPS
                     for(int i=0;i<=9;i++) {
                         rotation = Math.random() < 0.5 ;
 
                         rowLength = rand.nextInt(9);
                         colLength = rand.nextInt(9);
 
-                        //LOSOWANIE POZYCJI 4-POZYCYJNEGO STATKU (POZIOMEGO)
+                        //RAND 4-LENGTH ENEMY SHIP
                         if( i==0 && !rotation ) {
 
                             rowLength = rand.nextInt(6);
@@ -340,16 +387,10 @@ public class Controller implements Initializable {
                             enemyPosition[rowLength + 2][colLength] = true;
                             enemyPosition[rowLength + 3][colLength] = true;
 
-
-                            enemyButtons[rowLength][colLength].setStyle("-fx-background-color:black");
-                            enemyButtons[rowLength + 1][colLength].setStyle("-fx-background-color:black");
-                            enemyButtons[rowLength + 2][colLength].setStyle("-fx-background-color:black");
-                            enemyButtons[rowLength + 3][colLength].setStyle("-fx-background-color:black");
-
-                            System.out.println("4 poziom");
+                            enemyPoints+=4;
 
                         }
-                        //-----------------||-------------  4 (Pionowy)
+
                         else if( i==0 && rotation ) {
 
                             rowLength = rand.nextInt(9);
@@ -358,18 +399,12 @@ public class Controller implements Initializable {
                             enemyPosition[rowLength][colLength] = true;
                             enemyPosition[rowLength][colLength + 1] = true;
                             enemyPosition[rowLength][colLength + 2] = true;
-                            enemyPosition[rowLength][colLength + 1] = true;
+                            enemyPosition[rowLength][colLength + 3] = true;
 
-                            System.out.println("4 pion");
-
-                            enemyButtons[rowLength][colLength].setStyle("-fx-background-color:black");
-                            enemyButtons[rowLength][colLength + 1].setStyle("-fx-background-color:black");
-                            enemyButtons[rowLength][colLength + 2].setStyle("-fx-background-color:black");
-                            enemyButtons[rowLength][colLength + 3].setStyle("-fx-background-color:black");
-
+                            enemyPoints+=4;
 
                         }
-                        //3-POZIOMOWY STATEK
+                        //RAND 3-LENGTH ENEMY SHIP
                         else if( i < 3 ) {
 
 
@@ -381,14 +416,11 @@ public class Controller implements Initializable {
                                     enemyPosition[rowLength + 1][colLength] = true;
                                     enemyPosition[rowLength + 2][colLength] = true;
 
-                                    enemyButtons[rowLength][colLength].setStyle("-fx-background-color:black");
-                                    enemyButtons[rowLength + 1][colLength].setStyle("-fx-background-color:black");
-                                    enemyButtons[rowLength + 2][colLength].setStyle("-fx-background-color:black");
-
                                     rowLength = 11;
-                                    System.out.println("3Poziom");
+                                    enemyPoints+=3;
 
                                 }
+
 
                                 else if(rotation && colLength < 7 && !enemyPosition[rowLength][colLength] && !enemyPosition[rowLength][colLength + 1] &&
                                         !enemyPosition[rowLength][colLength + 2] ) {
@@ -397,12 +429,8 @@ public class Controller implements Initializable {
                                     enemyPosition[rowLength][colLength + 1] = true;
                                     enemyPosition[rowLength][colLength + 2] = true;
 
-                                    enemyButtons[rowLength][colLength].setStyle("-fx-background-color:black");
-                                    enemyButtons[rowLength][colLength + 1].setStyle("-fx-background-color:black");
-                                    enemyButtons[rowLength][colLength + 2].setStyle("-fx-background-color:black");
-
-                                    System.out.println("3PION");
                                     rowLength = 11;
+                                    enemyPoints+=3;
 
                                 }
 
@@ -417,7 +445,7 @@ public class Controller implements Initializable {
 
                         }
 
-                        //2-POZIOMOWY STATEK
+                        //RAND 2 -LENGTH ENEMY SHIP
                         else if(i < 6) {
                             for(;rowLength < 12;) {
                                 if(!rotation && rowLength < 8 && !enemyPosition[rowLength][colLength] && !enemyPosition[rowLength + 1][colLength] ) {
@@ -425,11 +453,8 @@ public class Controller implements Initializable {
                                     enemyPosition[rowLength][colLength] = true;
                                     enemyPosition[rowLength + 1][colLength] = true;
 
-                                    enemyButtons[rowLength][colLength].setStyle("-fx-background-color:black");
-                                    enemyButtons[rowLength + 1][colLength].setStyle("-fx-background-color:black");
-
                                     rowLength = 13;
-                                    System.out.println("2POZIOM");
+                                    enemyPoints+=2;
 
                                 }
 
@@ -438,11 +463,8 @@ public class Controller implements Initializable {
                                     enemyPosition[rowLength][colLength] = true;
                                     enemyPosition[rowLength][colLength + 1] = true;
 
-                                    enemyButtons[rowLength][colLength].setStyle("-fx-background-color:black");
-                                    enemyButtons[rowLength][colLength + 1].setStyle("-fx-background-color:black");
-
                                     rowLength = 13;
-                                    System.out.println("2PION");
+                                    enemyPoints+=2;
 
                                 }
 
@@ -454,17 +476,14 @@ public class Controller implements Initializable {
                                 }
                             }
                         }
+                        //RAND 1-LENGTH ENEMY SHIP
                         else{
                             for(;rowLength < 14;) {
                                 if(!enemyPosition[rowLength][colLength]) {
 
                                     enemyPosition[rowLength][colLength] = true;
-
-                                    enemyButtons[rowLength][colLength].setStyle("-fx-background-color:black");
-
+                                    enemyPoints++;
                                     rowLength = 15;
-
-                                    System.out.println("1");
 
                                 }
                                 else{
@@ -484,6 +503,8 @@ public class Controller implements Initializable {
             }
         };
 
+        //HANDLER ENTERED MOUSE && CLICKED MOUSE EVENTS (ENEMY SIDE)
+
         EventHandler<MouseEvent> enemySideEntered = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -502,6 +523,14 @@ public class Controller implements Initializable {
                     if(enemyPosition[i2][j2] == true ) {
                         enemyButtons[i2][j2].setStyle("-fx-background-color:red");
                         enemyButtons[i2][j2].setDisable(true);
+                        enemyPoints--;
+                        if(enemyPoints==0) {
+                            t.setText("WIiiiiiIN");
+                            t.setFont(Font.font(null, FontWeight.BOLD, 100));
+                            t2.setVisible(false);
+
+                        }
+                        t2.setText(enemyPoints+"/20");
                     }
                     else{
                         enemyButtons[i2][j2].setStyle("-fx-background-color:black");
@@ -520,6 +549,13 @@ public class Controller implements Initializable {
                             if(position[i3][j3]) {
                                 buttons[i3][j3].setStyle("-fx-background-color:red");
                                 enemyShots[i3][j3] = true;
+                                yourPoints--;
+                                t.setText(yourPoints+"/20");
+                                if(yourPoints==0) {
+                                    t.setFont(Font.font(null, FontWeight.BOLD, 100));
+                                    t2.setVisible(false);
+                                    t.setText("GAME OVER");
+                                }
                                 break;
                             }
                             else {
@@ -561,6 +597,8 @@ public class Controller implements Initializable {
                 mainContainer.add(buttons[i][j], i, j + 1);
 
             }
+
+
 
         for (int i = 0; i < row; i++)
             for (int j = 0; j < col; j++) {
